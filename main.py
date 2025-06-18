@@ -12,7 +12,9 @@ BANDS = [
 ]
 
 @app.get("/bands")
-async def bands() -> list[Band]:
+async def bands(genre: url_choices | None= None) -> list[Band]:
+    if genre:
+        return [Band(**b) for b in BANDS if b["genre"].lower() == genre.value]
     return [Band(**b) for b in BANDS]
 
 
