@@ -18,7 +18,7 @@ async def bands(
     ) -> list[BandwithId]:
     band_list = [BandwithId(**b) for b in BANDS]                #  Convert each band dictionary to a Band model instance, PREVIOUSLY WE WERE CONVETING TO PYDANTIC MODEL ON RETURN 
     if genre:
-        band_list= [b for b in band_list if b.genre.lower() == genre.value]
+        band_list= [b for b in band_list if b.genre.value.lower() == genre.value]
     if has_albums:
         band_list = [b for b in band_list if len(b.albums)>0]
     return band_list

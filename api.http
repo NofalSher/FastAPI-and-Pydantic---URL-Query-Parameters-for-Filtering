@@ -2,20 +2,7 @@ POST http://localhost:8000/bands
 Content-Type: application/json
 
 {
-  "name": "The guitarists",
-  "genre": "Electronic",
-  "albums": [
-    {
-      "title": "The Electric Symphony",
-      "release_year": "1969-09-26"
-    },
-    {
-      "title": "helllo",
-      "release_year": "1970-05-08"
-    }
-  ]
+  "name": "The abc",
+  "genre": "ELECTRONIC"
 }
-
-
-###
 GET http://localhost:8000/bands
