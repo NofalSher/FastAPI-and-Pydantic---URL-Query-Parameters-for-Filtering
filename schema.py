@@ -33,7 +33,6 @@ class BandBase(BaseModel):
 class BandCreate(BandBase):
 
     @field_validator("genre")
-    @classmethod
     def titlecase_genre(cls, value: str) -> str:
         return value.title()
 
