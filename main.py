@@ -1,5 +1,6 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Path, Query
 from schema import url_choices, BandBase, BandwithId, BandCreate
+from typing import Annotated
 
 app= FastAPI()
 
@@ -14,18 +15,21 @@ BANDS = [
 @app.get("/bands")
 async def bands(
     genre: url_choices | None= None,
+    q:Annotated[str | None, Query(max_length=10)] = None,  # Optional query parameter
     has_albums: bool =False
     ) -> list[BandwithId]:
     band_list = [BandwithId(**b) for b in BANDS]                #  Convert each band dictionary to a Band model instance, PREVIOUSLY WE WERE CONVETING TO PYDANTIC MODEL ON RETURN 
     if genre:
         band_list= [b for b in band_list if b.genre.value.lower() == genre.value]
+    if q:
+        band_list = [b for b in band_list if q.lower() in b.name.lower()]
     if has_albums:
         band_list = [b for b in band_list if len(b.albums)>0]
     return band_list
 
 
 @app.get("/bands/{band_id}", status_code=206)
-async def band(band_id: int) -> BandwithId:
+async def band(band_id: Annotated[int, Path(title='Band ID')]) -> BandwithId:
     for band in BANDS:
         if band["id"] == band_id:
             return BandwithId(**band)
